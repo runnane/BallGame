@@ -42,10 +42,28 @@ namespace BallGameWindow
 
             Fonts = new Dictionary<string, SpriteFont>();
             Objects = new List<MovableObject>();
-            var Ball1 = new MovableObject(Color.Aqua, this);
+            var player1 = new MovableObject(Color.Aqua, this);
+            var player2 = new MovableObject(Color.Pink, this);
 
-            Objects.Add(Ball1);
-            Components.Add(Ball1);
+            player1.Name = "Player1";
+            player1.TextPos = new Vector2(10,450);
+            player1.Controls["Up"] = Keys.W;
+            player1.Controls["Down"] = Keys.S;
+            player1.Controls["Left"] = Keys.A;
+            player1.Controls["Right"] = Keys.D;
+
+            player2.Name = "Player2";
+            player2.TextPos = new Vector2(500, 450);
+            player2.Controls["Up"] = Keys.Up;
+            player2.Controls["Down"] = Keys.Down;
+            player2.Controls["Left"] = Keys.Left;
+            player2.Controls["Right"] = Keys.Right;
+
+            Objects.Add(player1);
+            Components.Add(player1);
+
+            Objects.Add(player2);
+            Components.Add(player2);
             
             base.Initialize();
         }
@@ -88,10 +106,10 @@ namespace BallGameWindow
             
 
             // TODO: Add your update logic here
-            foreach (var movableObject in Objects)
-            {
-                movableObject.Update(gameTime);
-            }
+            //foreach (var movableObject in Objects)
+            //{
+            //    movableObject.Update(gameTime);
+            //}
 
             base.Update(gameTime);
         }
@@ -104,14 +122,14 @@ namespace BallGameWindow
         {
             GraphicsDevice.Clear(Color.White);
 
-            foreach (var movableObject in Objects)
-            {
-                movableObject.Draw(gameTime);
-            }
+            //foreach (var movableObject in Objects)
+            //{
+            //    movableObject.Draw(gameTime);
+            //}
 
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(Fonts["DefaultFont"], "aw yee", new Vector2(32, 32), Color.Black);
+            spriteBatch.DrawString(Fonts["DefaultFont"], "The mighty ballgame!", new Vector2(10, 10), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
