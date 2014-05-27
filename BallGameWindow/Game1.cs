@@ -42,7 +42,7 @@ namespace BallGameWindow
 
             Fonts = new Dictionary<string, SpriteFont>();
             Objects = new List<MovableObject>();
-            var Ball1 = new MovableObject(Color.Aqua, new Rectangle(60, 60, 10, 10), this);
+            var Ball1 = new MovableObject(Color.Aqua, this);
 
             Objects.Add(Ball1);
             Components.Add(Ball1);

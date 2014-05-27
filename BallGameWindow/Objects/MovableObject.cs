@@ -8,18 +8,19 @@ namespace BallGameWindow.Objects
     public class MovableObject : DrawableGameComponent
     {
 
-        public Rectangle Position { get; set; }
+        public Rectangle Box { get; set; }
         public Color Color { get; set; }
         public Texture2D Texture { get; set; }
         public new Game1 Game { get; set; }
         public SpriteBatch spriteBatch { get; set; }
-
-        public MovableObject(Color _col, Rectangle _vec, Game _game)
+        public Vector2 Location { get; set; }
+        public MovableObject(Color _col, Game _game)
             : base(_game)
         {
+            Location = new Vector2(60, 60);
             Game = (Game1)_game;
             Color = _col;
-            Position = _vec;
+            Box = new Rectangle((int)Location.X, (int)Location.Y, 20, 20);
         }
 
         protected override void LoadContent()
@@ -34,20 +35,39 @@ namespace BallGameWindow.Objects
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Texture, Position, Color);
-            spriteBatch.DrawString(Game.Fonts["DefaultFont"], Position.X + " x " + Position.Y, new Vector2(200, 200), Color.Black);
+            spriteBatch.Draw(Texture, Box, Color);
+            spriteBatch.DrawString(Game.Fonts["DefaultFont"], "Square pos: " + Location.X + " x " + Location.Y, new Vector2(200, 200), Color.Black);
             spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
+           
+            Box = new Rectangle((int)Location.X, (int)Location.Y, 20, 20);
+           
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                Position.Offset(1, 0);
+                var loc = Location;
+                loc.X += 0.5f;
+                Location = loc;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                Position.Offset(-1, 0);
+                var loc = Location;
+                loc.X -= 0.5f;
+                Location = loc;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                var loc = Location;
+                loc.Y -= 0.5f;
+                Location = loc;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                var loc = Location;
+                loc.Y += 0.5f;
+                Location = loc;
             }
 
         }
