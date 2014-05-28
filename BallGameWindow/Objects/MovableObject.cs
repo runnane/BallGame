@@ -16,7 +16,10 @@
         public Vector2 Location { get; set; }
         public Vector2 TextPos { get; set; }
         public Dictionary<string, Keys> Controls;
+        public Vector2 Velocity { get; set; }
         public string Name { get; set; }
+        public Dictionary<string, bool> Keys { get; set; } 
+
 
         public MovableObject(Color col, Game game) : base(game)
         {
@@ -25,6 +28,7 @@
             Color = col;
             Box = new Rectangle((int) Location.X, (int) Location.Y, 20, 20);
             Controls = new Dictionary<string, Keys>();
+            Keys = new Dictionary<string, bool>();
             TextPos = new Vector2(10, 10);
         }
 
@@ -41,39 +45,51 @@
         {
             SpriteBatch.Begin();
             SpriteBatch.Draw(Texture, Box, Color);
-            SpriteBatch.DrawString(Game.Fonts["DefaultFont"], Name + " pos: " + Location.X + " x " + Location.Y, TextPos,
+            SpriteBatch.DrawString(Game.Fonts["DefaultFont"], Name + " pos: " + (int)Location.X + " x " + (int)Location.Y + " v="+Velocity.Length(), TextPos,
                 Color.Black);
             SpriteBatch.End();
         }
 
+
         public override void Update(GameTime gameTime)
         {
 
+            float max = 5f;
+          
             Box = new Rectangle((int) Location.X, (int) Location.Y, 20, 20);
 
-            if (Keyboard.GetState().IsKeyDown(Controls["Right"]))
+            if (Velocity.Length() > max)
             {
-                var loc = Location;
-                loc.X += 0.5f;
-                Location = loc;
+                Velocity = Vector2.Normalize(Velocity) * max;
             }
-            if (Keyboard.GetState().IsKeyDown(Controls["Left"]))
+            if (Velocity.Length() < 0.1)
             {
-                var loc = Location;
-                loc.X -= 0.5f;
-                Location = loc;
+                Velocity = new Vector2(0, 0);
             }
-            if (Keyboard.GetState().IsKeyDown(Controls["Up"]))
+           
+            // Move
+            Location += Velocity;
+
+
+            // Boundingbox
+            if (Location.X > 800)
             {
-                var loc = Location;
-                loc.Y -= 0.5f;
-                Location = loc;
+                Location = new Vector2(1, Location.Y);
+
             }
-            if (Keyboard.GetState().IsKeyDown(Controls["Down"]))
+            if (Location.X < 1)
             {
-                var loc = Location;
-                loc.Y += 0.5f;
-                Location = loc;
+                Location = new Vector2(800, Location.Y);
+
+            }
+            if (Location.Y > 480)
+            {
+                Location = new Vector2(Location.X, 1);
+
+            }
+            if (Location.Y < 1)
+            {
+                Location = new Vector2(Location.X, 480);
             }
 
         }

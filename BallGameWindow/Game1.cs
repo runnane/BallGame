@@ -19,7 +19,7 @@ namespace BallGameWindow
 
         public Dictionary<string, SpriteFont> Fonts;
 
-        public Game1(): base()
+        public Game1() : base()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -37,18 +37,18 @@ namespace BallGameWindow
 
             Fonts = new Dictionary<string, SpriteFont>();
             Objects = new List<MovableObject>();
-            var player1 = new MovableObject(Color.Aqua, this);
-            var player2 = new MovableObject(Color.Pink, this);
+            var player1 = new Player(Color.Aqua, this);
+            var player2 = new Player(Color.Pink, this);
 
             player1.Name = "Player1";
-            player1.TextPos = new Vector2(10,450);
+            player1.TextPos = new Vector2(10, 420);
             player1.Controls["Up"] = Keys.W;
             player1.Controls["Down"] = Keys.S;
             player1.Controls["Left"] = Keys.A;
             player1.Controls["Right"] = Keys.D;
 
             player2.Name = "Player2";
-            player2.TextPos = new Vector2(500, 450);
+            player2.TextPos = new Vector2(10, 450);
             player2.Controls["Up"] = Keys.Up;
             player2.Controls["Down"] = Keys.Down;
             player2.Controls["Left"] = Keys.Left;
@@ -59,7 +59,7 @@ namespace BallGameWindow
 
             Objects.Add(player2);
             Components.Add(player2);
-            
+
             base.Initialize();
         }
 
@@ -71,14 +71,8 @@ namespace BallGameWindow
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             Fonts["DefaultFont"] = Content.Load<SpriteFont>("DefaultFont");
 
-            //foreach (var movableObject in Objects)
-            //{
-            //    //movableObject.LoadContent();
-            //}
-            
         }
 
         /// <summary>
