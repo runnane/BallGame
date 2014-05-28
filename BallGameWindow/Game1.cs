@@ -1,13 +1,9 @@
 ﻿#region Using Statements
-using System;
 using System.Collections.Generic;
 using BallGameWindow.Objects;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 #endregion
 
 namespace BallGameWindow
@@ -17,16 +13,15 @@ namespace BallGameWindow
     /// </summary>
     public class Game1 : Game
     {
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
         public List<MovableObject> Objects;
 
         public Dictionary<string, SpriteFont> Fonts;
 
-        public Game1()
-            : base()
+        public Game1(): base()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
         }
@@ -75,7 +70,7 @@ namespace BallGameWindow
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Fonts["DefaultFont"] = Content.Load<SpriteFont>("DefaultFont");
 
@@ -102,9 +97,6 @@ namespace BallGameWindow
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
-            
-
             // TODO: Add your update logic here
             //foreach (var movableObject in Objects)
             //{
@@ -127,10 +119,9 @@ namespace BallGameWindow
             //    movableObject.Draw(gameTime);
             //}
 
-
-            spriteBatch.Begin();
-            spriteBatch.DrawString(Fonts["DefaultFont"], "The mighty ballgame!", new Vector2(10, 10), Color.Black);
-            spriteBatch.End();
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(Fonts["DefaultFont"], "The mighty ballgame!", new Vector2(10, 10), Color.Black);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

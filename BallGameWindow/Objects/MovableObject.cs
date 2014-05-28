@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input;
-
-namespace BallGameWindow.Objects
+﻿namespace BallGameWindow.Objects
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework.Input;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -13,25 +12,25 @@ namespace BallGameWindow.Objects
         public Color Color { get; set; }
         public Texture2D Texture { get; set; }
         public new Game1 Game { get; set; }
-        public SpriteBatch spriteBatch { get; set; }
+        public SpriteBatch SpriteBatch { get; set; }
         public Vector2 Location { get; set; }
         public Vector2 TextPos { get; set; }
         public Dictionary<string, Keys> Controls;
         public string Name { get; set; }
 
-        public MovableObject(Color _col, Game _game) : base(_game)
+        public MovableObject(Color col, Game game) : base(game)
         {
             Location = new Vector2(60, 60);
-            Game = (Game1)_game;
-            Color = _col;
-            Box = new Rectangle((int)Location.X, (int)Location.Y, 20, 20);
+            Game = (Game1) game;
+            Color = col;
+            Box = new Rectangle((int) Location.X, (int) Location.Y, 20, 20);
             Controls = new Dictionary<string, Keys>();
-            TextPos = new Vector2(10,10);
+            TextPos = new Vector2(10, 10);
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Texture.SetData(new[] {Color});
 
@@ -40,16 +39,17 @@ namespace BallGameWindow.Objects
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(Texture, Box, Color);
-            spriteBatch.DrawString(Game.Fonts["DefaultFont"], Name+ " pos: " + Location.X + " x " + Location.Y, TextPos, Color.Black);
-            spriteBatch.End();
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(Texture, Box, Color);
+            SpriteBatch.DrawString(Game.Fonts["DefaultFont"], Name + " pos: " + Location.X + " x " + Location.Y, TextPos,
+                Color.Black);
+            SpriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-           
-            Box = new Rectangle((int)Location.X, (int)Location.Y, 20, 20);
+
+            Box = new Rectangle((int) Location.X, (int) Location.Y, 20, 20);
 
             if (Keyboard.GetState().IsKeyDown(Controls["Right"]))
             {
