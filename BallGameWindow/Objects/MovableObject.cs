@@ -50,17 +50,27 @@
             SpriteBatch.End();
         }
 
+        public virtual void Move(float x, float y)
+        {
+            Move(new Vector2(x, y));
+        }
+
+        public virtual void Move(Vector2 vec)
+        {
+            Location = vec;
+        }
+       
 
         public override void Update(GameTime gameTime)
         {
 
-            float max = 5f;
+            const float maxVelocity = 5f;
           
-            Box = new Rectangle((int) Location.X, (int) Location.Y, 20, 20);
+            
 
-            if (Velocity.Length() > max)
+            if (Velocity.Length() > maxVelocity)
             {
-                Velocity = Vector2.Normalize(Velocity) * max;
+                Velocity = Vector2.Normalize(Velocity) * maxVelocity;
             }
             if (Velocity.Length() < 0.1)
             {
@@ -92,6 +102,7 @@
                 Location = new Vector2(Location.X, 480);
             }
 
+            Box = new Rectangle((int)Location.X, (int)Location.Y, 20, 20);
         }
     }
 }

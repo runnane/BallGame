@@ -15,7 +15,7 @@ namespace BallGameWindow
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public List<MovableObject> Objects;
+       // public List<MovableObject> Objects;
 
         public Dictionary<string, SpriteFont> Fonts;
 
@@ -36,28 +36,49 @@ namespace BallGameWindow
         {
 
             Fonts = new Dictionary<string, SpriteFont>();
-            Objects = new List<MovableObject>();
-            var player1 = new Player(Color.Aqua, this);
-            var player2 = new Player(Color.Pink, this);
+           // Objects = new List<MovableObject>();
 
-            player1.Name = "Player1";
-            player1.TextPos = new Vector2(10, 420);
+
+
+            var ball = new Ball(Color.Red, this)
+            {
+                Name = "Ball", 
+                TextPos = new Vector2(10, 410)
+            };
+
+            ball.Move(800/2,480/2);
+
+            var player1 = new Player(Color.Aqua, this)
+            {
+                Name = "Player1", 
+                TextPos = new Vector2(10, 430)
+            };
+
+            player1.Move(50,480/2);
             player1.Controls["Up"] = Keys.W;
             player1.Controls["Down"] = Keys.S;
             player1.Controls["Left"] = Keys.A;
             player1.Controls["Right"] = Keys.D;
 
-            player2.Name = "Player2";
-            player2.TextPos = new Vector2(10, 450);
+            var player2 = new Player(Color.Pink, this)
+            {
+                Name = "Player2", 
+                TextPos = new Vector2(10, 450)
+            };
+
+            player2.Move(750, 480/2);
             player2.Controls["Up"] = Keys.Up;
             player2.Controls["Down"] = Keys.Down;
             player2.Controls["Left"] = Keys.Left;
             player2.Controls["Right"] = Keys.Right;
 
-            Objects.Add(player1);
+            // Objects.Add(ball);
+            Components.Add(ball);
+
+            //  Objects.Add(player1);
             Components.Add(player1);
 
-            Objects.Add(player2);
+            //  Objects.Add(player2);
             Components.Add(player2);
 
             base.Initialize();
@@ -96,6 +117,29 @@ namespace BallGameWindow
             //{
             //    movableObject.Update(gameTime);
             //}
+            var ThePlayers = new List<Player>();
+            Ball TheBall = null;
+            foreach (IGameComponent gameComponent in Components)
+            {
+                if (gameComponent is Player)
+                {
+                    ThePlayers.Add(gameComponent as Player);
+                }
+                else if (gameComponent is Ball)
+                {
+                    TheBall = gameComponent as Ball;
+                }
+            }
+
+            if (TheBall != null && TheBall.Box.Intersects(ThePlayers[0].Box))
+            {
+                TheBall.Velocity += ThePlayers[0].Velocity * 0.7f;
+            }
+
+            if (TheBall != null && TheBall.Box.Intersects(ThePlayers[1].Box))
+            {
+                TheBall.Velocity += ThePlayers[1].Velocity * 0.7f;
+            }
 
             base.Update(gameTime);
         }
